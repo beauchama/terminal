@@ -42,11 +42,19 @@
           "foreground": "p:dotnet",
           "type": "dotnet",
           "style": "plain"
-        },
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "type": "prompt",
+      "segments": [
         {
           "foreground": "p:foreground",
           "style": "plain",
-          "template": " {{ if .Error }}\u2717{{ else }}\u276f{{ end }}",
+          "template": "{{ if .Error }}\u2717{{ else }}\u276f{{ end }}",
           "type": "status",
           "foreground_templates": [
             "{{ if .Error }}p:error{{ end }}"
@@ -55,8 +63,7 @@
             "always_enabled": true
           }
         }
-      ],
-      "type": "prompt"
+      ]
     }
   ],
   "final_space": true,
