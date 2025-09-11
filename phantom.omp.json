@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "foreground": "#C9A46C",
+    "accent": "#6E7275",
+    "warning": "#A35426",
+    "error": "#B22222",
+    "dotnet": "#56B6C2"
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "p:foreground",
+          "properties": {
+            "style": "folder"
+          },
+          "style": "plain",
+          "template": "{{ .Path }}",
+          "type": "path"
+        },
+        {
+          "foreground": "p:warning",
+          "properties": {
+            "branch_icon": "",
+            "cache_duration": "none",
+            "fetch_stash_count": true,
+            "fetch_status": true
+          },
+          "style": "plain",
+          "template": " <#6E7275>git:(</>{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \udb80\udd93 {{ .StashCount }}{{ end }}<#6E7275>)</>",
+          "type": "git"
+        },
+        {
+          "properties": {
+            "cache_duration": "none",
+            "display_mode": "context",
+            "fetch_version": true
+          },
+          "template": " \udb82\udeae {{ .Major }}.{{ .Minor }}.{{ .Patch }}",
+          "foreground": "p:dotnet",
+          "type": "dotnet",
+          "style": "plain"
+        },
+        {
+          "foreground": "p:foreground",
+          "style": "plain",
+          "template": " {{ if .Error }}\u2717{{ else }}\u276f{{ end }}",
+          "type": "status",
+          "foreground_templates": [
+            "{{ if .Error }}p:error{{ end }}"
+          ],
+          "properties": {
+            "always_enabled": true
+          }
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "final_space": true,
+  "version": 3
+}
