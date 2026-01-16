@@ -1,0 +1,69 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "foreground": "#CBBE9A",
+    "accent": "#3A4F7A",
+    "warning": "#BFA45A",
+    "error": "#8B1E1E",
+    "dotnet": "#4F7A7A"
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "p:foreground",
+          "options": {
+            "style": "folder"
+          },
+          "style": "plain",
+          "template": "{{ .Path }}",
+          "type": "path"
+        },
+        {
+          "foreground": "p:warning",
+          "options": {
+            "branch_icon": "",
+            "fetch_status": true
+          },
+          "style": "plain",
+          "template": " <#6E7275>git:(</>{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \udb80\udd93 {{ .StashCount }}{{ end }}<#6E7275>)</>",
+          "type": "git"
+        },
+        {
+          "options": {
+            "cache_duration": "none",
+            "display_mode": "context",
+            "fetch_version": true
+          },
+          "template": " \udb82\udeae {{ .Major }}.{{ .Minor }}.{{ .Patch }}",
+          "foreground": "p:dotnet",
+          "type": "dotnet",
+          "style": "plain"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "type": "prompt",
+      "segments": [
+        {
+          "foreground": "p:foreground",
+          "style": "plain",
+          "template": "{{ if .Error }}\u2717{{ else }}\u276f{{ end }}",
+          "type": "status",
+          "foreground_templates": [
+            "{{ if .Error }}p:error{{ end }}"
+          ],
+          "options": {
+            "always_enabled": true
+          }
+        }
+      ]
+    }
+  ],
+  "final_space": true,
+  "version": 3
+}

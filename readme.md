@@ -1,98 +1,50 @@
-# Gear
+# Terminal
 
-A customized Windows terminal + PowerShell environment styled after
-**Metal Gear Solid V: The Phantom Pain**.
+Customize Windows Terminal settings, appearance and enhance PowerShell experience.
 
-Featuring:
-- A dusty warzone color scheme
-- Nerd font icons
-- A custom [Oh My Posh] theme
-- A custom [PowerShell 7] profile
+## Features
+
+- Multiple themes
+- Use nerd fonts icons in terminal
+- Autocompletion for PowerShell
+- Enhanced prompt with Git status
 
 ## Requirements
 
-Before setting up, ensure you have the following installed:
+Before setting up the terminal, make sure you have the following prerequisites installed:
 
-1. Install [Windows Terminal] from the Microsoft Store.
-2. Download and install [JetBrainsMono Nerd Font]
+- Install [Windows Terminal] from the Microsoft Store.
+- Download and install [JetBrainsMono Nerd Font]
+- [Oh My Posh] for PowerShell prompt theming.
+- PowerShell 7 or higher.
 
-## Install with winget
+### Installation
 
-You can install the required software using `winget` commands:
+You can install Oh My Posh and PowerShell 7 by running the following command in the terminal:
 
 ```powershell
-# Install PowerShell 7
-winget install --id Microsoft.PowerShell -s winget
-
-# Install Oh My Posh
-winget install JanDeDobbeleer.OhMyPosh -s winget
+winget install --id Microsoft.PowerShell
+winget install JanDeDobbeleer.OhMyPosh
 ```
 
 ## Setup
 
 ### Configure Windows Terminal
 
-To set up the custom terminal profile 'Gear' and color schemes, follow these steps:
+To apply the custom settings for Windows Terminal, follow these steps:
 
 1. Open Windows Terminal.
-2. Open the settings (Ctrl + ,).
-3. Open the `settings.json` file.
-4. Add theses following color schemes to the `schemes`:
+2. Click on the dropdown arrow next to the tabs and select "Settings".
+3. Open the `settings.json` file by clicking on "Open JSON file".
+4. Add the provided configuration to your `settings.json` file. Make sure to adjust any paths or settings as needed.
+
+Add the following profile configuration to the `profiles.list`:
 ```json
 {
-    "name": "phantom",
-    "background": "#1B1B1B",
-    "black": "#1B1B1B",
-    "blue": "#6E7275",
-    "brightBlack": "#3A3A3A",
-    "brightBlue": "#9AA0A6",
-    "brightCyan": "#B0BEC5",
-    "brightGreen": "#FF8C42",
-    "brightPurple": "#D2691E",
-    "brightRed": "#FF3C28",
-    "brightWhite": "#F5F5F5",
-    "brightYellow": "#FFD27F",
-    "cursorColor": "#FFFFFF",
-    "cyan": "#8F9DA5",
-    "foreground": "#C9A46C",
-    "green": "#A35426",
-    "purple": "#A35426",
-    "red": "#B22222",
-    "selectionBackground": "#FFFFFF",
-    "white": "#E5E5E5",
-    "yellow": "#C9A46C"
-},
-{
-    "name": "kirby",
-    "background": "#1C1A1E",
-    "black": "#1C1A1E",
-    "brightBlack": "#3A3540",
-    "foreground": "#F6A9C7",
-    "white": "#FCE6EE",
-    "brightWhite": "#FFF3F8",
-    "red": "#E94E77",
-    "brightRed": "#FF6F9E",
-    "green": "#F7B267",
-    "brightGreen": "#FFD29D",
-    "yellow": "#F9D976",
-    "brightYellow": "#FFF0A6",
-    "blue": "#7FB8E6",
-    "brightBlue": "#A9D6FF",
-    "purple": "#E39ACD",
-    "brightPurple": "#F5B6E4",
-    "cyan": "#7FD7D7",
-    "brightCyan": "#B5F0F0",
-    "cursorColor": "#FFF3F8",
-    "selectionBackground": "#3A2B35"
-}
-```
-5. Add the following profile to the `profiles.list`:
-```json
-{
-    "name": "Gear",
+    "name": "Terminal",
     "guid": "{bf06ed7b-0f31-4a96-af85-16024dc1c720}",
     "commandline": "pwsh.exe -NoLogo",
-    "colorScheme": "phantom",
+    "colorScheme": "zelda", // You can change to any color scheme, see themes/readme.md
     "adjustIndistinguishableColors": "always",
     "cursorShape": "vintage",
     "font":
@@ -106,10 +58,11 @@ To set up the custom terminal profile 'Gear' and color schemes, follow these ste
     "suppressApplicationTitle": true
 }
 ```
+> See [Windows Terminal documentation](https://docs.microsoft.com/en-us/windows/terminal/customize-settings/profile-settings) for more details.
 
-## Configure Powershell 7
+### Configure PowerShell
 
-We will configure the Powershell 7 profile to use Oh My Posh and Phantom theme. Open the profile using the following command:
+To enhance your PowerShell experience with Oh My Posh and autocompletion, follow these steps:
 
 :warning: Make sure to open a powershell 7 terminal. :warning:
 
@@ -131,7 +84,7 @@ The profile.ps1 is a script that runs every time you open powershell. The profil
 
 ### Modules
 
-The profile includes the following modules which are required for Phantom theme to work properly
+The profile includes the following modules which are required to work properly.
 
 #### Posh Git
 
@@ -147,11 +100,11 @@ Module which need to be updated.
 
 ### Themes
 
-The profile execute Oh My Posh with the custom theme Phantom by default.
+The profile execute Oh My Posh with a custom theme. You can change the theme by modifying the `profile.ps1` file then uncommenting the desired theme line.
 
 ### Optional scripts
 
-The profile some optional scripts that you can use to customize your prompt. Is not required to use them.
+The profile includes some optional scripts that you can use to customize your prompt. It is not required to use them.
 
 #### .NET auto-completion
 
