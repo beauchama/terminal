@@ -94,7 +94,6 @@ To set up the custom terminal profile 'Gear' and color schemes, follow these ste
     "commandline": "pwsh.exe -NoLogo",
     "colorScheme": "phantom",
     "adjustIndistinguishableColors": "always",
-    "cursorColor": "#C9A46C",
     "cursorShape": "vintage",
     "font":
     {
