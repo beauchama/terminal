@@ -7,7 +7,6 @@
     "error": "#C94A3F",
     "dotnet": "#8E9BFF"
   },
-  "patch_pwsh_bleed": true,
   "blocks": [
     {
       "alignment": "left",
