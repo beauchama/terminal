@@ -7,6 +7,7 @@
     "error": "#C94A3F",
     "dotnet": "#8E9BFF"
   },
+  "patch_pwsh_bleed": true,
   "blocks": [
     {
       "alignment": "left",
@@ -32,11 +33,14 @@
         },
         {
           "options": {
-            "cache_duration": "none",
             "display_mode": "context",
             "fetch_version": true
           },
-          "template": " \udb82\udeae {{ .Major }}.{{ .Minor }}.{{ .Patch }}",
+          "cache": {
+            "duration": "168h",
+            "strategy": "folder"
+          },
+          "template": " .NET {{ .Major }}.{{ .Minor }}.{{ .Patch }}",
           "foreground": "p:dotnet",
           "type": "dotnet",
           "style": "plain"

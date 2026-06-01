@@ -32,11 +32,14 @@
         },
         {
           "options": {
-            "cache_duration": "none",
             "display_mode": "context",
             "fetch_version": true
           },
-          "template": " \udb82\udeae {{ .Major }}.{{ .Minor }}.{{ .Patch }}",
+          "cache": {
+            "duration": "168h",
+            "strategy": "folder"
+          },
+          "template": " .NET {{ .Major }}.{{ .Minor }}.{{ .Patch }}",
           "foreground": "p:dotnet",
           "type": "dotnet",
           "style": "plain"
