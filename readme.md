@@ -1,6 +1,6 @@
 # Terminal
 
-Customize Windows Terminal settings, appearance and enhance PowerShell experience, with the same look on Linux (zsh and Ptyxis).
+Customize Windows Terminal settings, appearance and enhance PowerShell experience, with the same look on Linux (zsh and kitty).
 
 ## Features
 
@@ -123,42 +123,37 @@ You need to install the respective software to use the auto-completion.
 
 ## Linux (Ubuntu)
 
-The same Oh My Posh themes work on Linux. On Ubuntu, zsh takes the place of PowerShell and Ptyxis, Ubuntu's terminal, the place of Windows Terminal.
+The same Oh My Posh themes work on Linux. On Ubuntu, zsh takes the place of PowerShell and [kitty] the place of Windows Terminal: Ubuntu's own terminal, Ptyxis, can't draw font ligatures.
 
 | Windows                       | Linux                                                    |
 | ----------------------------- | -------------------------------------------------------- |
-| Windows Terminal color scheme | Ptyxis palette in [linux/palettes](./linux/palettes)     |
-| PowerShell 7 and PSReadLine   | zsh with zsh-autosuggestions and zsh-syntax-highlighting |
+| Windows Terminal settings     | [linux/kitty/kitty.conf](./linux/kitty/kitty.conf)       |
+| Windows Terminal color scheme | [linux/kitty/themes](./linux/kitty/themes)               |
+| PowerShell 7 and PSReadLine   | zsh with zsh-autosuggestions                             |
 | posh-git                      | zsh's Git completion and the Oh My Posh `git` segment    |
 | Terminal-Icons                | `eza --icons`                                            |
 | `profile.ps1`                 | [linux/zshrc](./linux/zshrc)                             |
 
+zsh-syntax-highlighting is left out on purpose: it colors the command line piece by piece while you type, which splits the font ligatures.
+
 ### Install
 
-Clone the repository, then run the script. It installs the packages, Oh My Posh and JetBrainsMono Nerd Font, copies the palettes, links `~/.zshrc` to `linux/zshrc` (an existing one is kept as `~/.zshrc.backup`) and makes zsh your shell.
+Clone the repository, then run the script. It installs kitty, zsh, Oh My Posh and JetBrainsMono Nerd Font, links `~/.config/kitty` to `linux/kitty` and `~/.zshrc` to `linux/zshrc` (existing ones are kept as `*.backup`), and makes zsh your shell.
 
 ```bash
-bash linux/install.sh        # optional argument: Ptyxis opacity, 0 to 1 (default 0.85)
+bash linux/install.sh
 ```
 
-Open Ptyxis once before running it, so its profile exists for the opacity. Log out and back in afterwards.
-
-### Configure Ptyxis
-
-1. Open the preferences and edit the profile: pick one of the palettes (Kirby, Phantom, Zelda, Twilight, TOTK) and an underline cursor.
-2. In the appearance settings, turn off the system font and pick **JetBrainsMono Nerd Font**, size 12.
-
-Ptyxis has no opacity slider. The script sets it on every profile; to change it later:
-
-```bash
-for uuid in $(gsettings get org.gnome.Ptyxis profile-uuids | tr -d "[],'"); do
-    gsettings set "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$uuid/" opacity 0.85
-done
-```
+Log out and back in afterwards. Since the configuration is linked, a `git pull` updates it.
 
 ### Themes
 
-Change the theme by uncommenting the desired `theme=` line in [linux/zshrc](./linux/zshrc), then pick the matching palette in Ptyxis.
+Change the theme in two places, by uncommenting the desired line:
+
+- the `include themes/<name>.conf` line in [linux/kitty/kitty.conf](./linux/kitty/kitty.conf), for the terminal colors;
+- the `theme=` line in [linux/zshrc](./linux/zshrc), for the prompt.
+
+kitty reloads its configuration with `Ctrl+Shift+F5`.
 
 [Windows Terminal]: https://aka.ms/terminal
 [PowerShell 7]: https://aka.ms/powershell
@@ -166,3 +161,4 @@ Change the theme by uncommenting the desired `theme=` line in [linux/zshrc](./li
 [Oh My Posh]: https://ohmyposh.dev/docs/installation
 [posh-git]: https://github.com/dahlbyk/posh-git
 [terminal-icons]: https://github.com/devblackops/Terminal-Icons
+[kitty]: https://sw.kovidgoyal.net/kitty/
