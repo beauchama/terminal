@@ -1,0 +1,42 @@
+# History (feeds the autosuggestions)
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt share_history hist_ignore_dups hist_ignore_space
+
+# .NET and local tools (SSH sessions don't read environment.d)
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$HOME/.local/bin:$HOME/.dotnet:$HOME/.dotnet/tools:$PATH"
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# Completion with an arrow-key menu, case-insensitive
+mkdir -p ~/.zfunc
+if command -v gh > /dev/null && [[ ! -f ~/.zfunc/_gh ]]; then
+    gh completion -s zsh > ~/.zfunc/_gh
+fi
+fpath=(~/.zfunc $fpath)
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# .NET 10 and later ship a native completion script
+if command -v dotnet > /dev/null; then
+    eval "$(dotnet completions script zsh)"
+fi
+
+# Icons, like Terminal-Icons
+alias ls='eza --icons=auto --group-directories-first'
+alias ll='eza -l --git --icons=auto --group-directories-first'
+
+# Initialize oh-my-posh with custom themes
+# You can choose one of the themes below by uncommenting the desired line
+# theme=phantom
+# theme=kirby
+# theme=twilight
+# theme=totk
+theme=zelda
+eval "$(oh-my-posh init zsh --config https://cdn.jsdelivr.net/gh/beauchama/terminal@main/themes/$theme.omp.json)"
+
+# Keep these two last
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

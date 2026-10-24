@@ -1,6 +1,6 @@
 # Terminal
 
-Customize Windows Terminal settings, appearance and enhance PowerShell experience.
+Customize Windows Terminal settings, appearance and enhance PowerShell experience, with the same look on Linux (zsh and Ptyxis).
 
 ## Features
 
@@ -8,6 +8,7 @@ Customize Windows Terminal settings, appearance and enhance PowerShell experienc
 - Use nerd fonts icons in terminal
 - Autocompletion for PowerShell
 - Enhanced prompt with Git status
+- Linux setup for Ubuntu with the same themes
 
 ## Requirements
 
@@ -119,6 +120,45 @@ The script provides auto-completion for winget commands. You can use it by typin
 The script provides auto-completion for gh commands. You can use it by typing `gh` and pressing `TAB`.
 
 You need to install the respective software to use the auto-completion.
+
+## Linux (Ubuntu)
+
+The same Oh My Posh themes work on Linux. On Ubuntu, zsh takes the place of PowerShell and Ptyxis, Ubuntu's terminal, the place of Windows Terminal.
+
+| Windows                       | Linux                                                    |
+| ----------------------------- | -------------------------------------------------------- |
+| Windows Terminal color scheme | Ptyxis palette in [linux/palettes](./linux/palettes)     |
+| PowerShell 7 and PSReadLine   | zsh with zsh-autosuggestions and zsh-syntax-highlighting |
+| posh-git                      | zsh's Git completion and the Oh My Posh `git` segment    |
+| Terminal-Icons                | `eza --icons`                                            |
+| `profile.ps1`                 | [linux/zshrc](./linux/zshrc)                             |
+
+### Install
+
+Clone the repository, then run the script. It installs the packages, Oh My Posh and JetBrainsMono Nerd Font, copies the palettes, links `~/.zshrc` to `linux/zshrc` (an existing one is kept as `~/.zshrc.backup`) and makes zsh your shell.
+
+```bash
+bash linux/install.sh        # optional argument: Ptyxis opacity, 0 to 1 (default 0.85)
+```
+
+Open Ptyxis once before running it, so its profile exists for the opacity. Log out and back in afterwards.
+
+### Configure Ptyxis
+
+1. Open the preferences and edit the profile: pick one of the palettes (Kirby, Phantom, Zelda, Twilight, TOTK) and an underline cursor.
+2. In the appearance settings, turn off the system font and pick **JetBrainsMono Nerd Font**, size 12.
+
+Ptyxis has no opacity slider. The script sets it on every profile; to change it later:
+
+```bash
+for uuid in $(gsettings get org.gnome.Ptyxis profile-uuids | tr -d "[],'"); do
+    gsettings set "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$uuid/" opacity 0.85
+done
+```
+
+### Themes
+
+Change the theme by uncommenting the desired `theme=` line in [linux/zshrc](./linux/zshrc), then pick the matching palette in Ptyxis.
 
 [Windows Terminal]: https://aka.ms/terminal
 [PowerShell 7]: https://aka.ms/powershell
