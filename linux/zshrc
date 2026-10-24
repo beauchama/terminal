@@ -37,5 +37,6 @@ alias ll='eza -l --git --icons=auto --group-directories-first'
 theme=zelda
 eval "$(oh-my-posh init zsh --config https://cdn.jsdelivr.net/gh/beauchama/terminal@main/themes/$theme.omp.json)"
 
-# Suggestions from history, accepted with the right arrow
+# Keep these two last
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

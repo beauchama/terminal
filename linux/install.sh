@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Sets up kitty, zsh, Oh My Posh and the Nerd Font on Ubuntu.
+# Sets up zsh, Oh My Posh, the Nerd Font and the Ptyxis palettes on Ubuntu.
+# Usage: ./install.sh [opacity]   (opacity of the Ptyxis profiles, 0 to 1, default 0.85)
 set -euo pipefail
 
 linux_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+opacity="${1:-0.85}"
 
-sudo apt-get install -y kitty zsh zsh-autosuggestions eza unzip curl
+sudo apt-get install -y zsh zsh-autosuggestions zsh-syntax-highlighting eza unzip curl
 
 # Oh My Posh and the font
 mkdir -p "$HOME/.local/bin"
@@ -14,21 +16,26 @@ fi
 omp="$(command -v oh-my-posh || echo "$HOME/.local/bin/oh-my-posh")"
 "$omp" font install JetBrainsMono
 
-# Links, so a git pull updates them; existing files are kept as *.backup
-link() {
-    local source="$1" target="$2"
-    if [[ -e "$target" && ! -L "$target" ]]; then
-        mv "$target" "$target.backup"
-    fi
-    ln -sfn "$source" "$target"
-}
+# Ptyxis palettes
+palette_dir="$HOME/.local/share/org.gnome.Ptyxis/palettes"
+mkdir -p "$palette_dir"
+cp "$linux_dir"/palettes/*.palette "$palette_dir/"
 
-mkdir -p "$HOME/.config"
-link "$linux_dir/kitty" "$HOME/.config/kitty"
-link "$linux_dir/zshrc" "$HOME/.zshrc"
+# Ptyxis opacity (no slider in the preferences); profiles exist once Ptyxis has run
+if gsettings list-schemas | grep -qx org.gnome.Ptyxis; then
+    for uuid in $(gsettings get org.gnome.Ptyxis profile-uuids | tr -d "[],'"); do
+        gsettings set "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$uuid/" opacity "$opacity"
+    done
+fi
+
+# zsh profile, linked so a git pull updates it
+if [[ -f "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
+    mv "$HOME/.zshrc" "$HOME/.zshrc.backup"
+fi
+ln -sf "$linux_dir/zshrc" "$HOME/.zshrc"
 
 if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$(command -v zsh)" ]]; then
     chsh -s "$(command -v zsh)"
 fi
 
-echo "Done. Log out and back in, then open kitty."
+echo "Done. Log out and back in, then pick a palette and JetBrainsMono Nerd Font in the Ptyxis preferences."
