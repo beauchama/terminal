@@ -1,6 +1,6 @@
 # Terminal
 
-Customize Windows Terminal settings, appearance and enhance PowerShell experience, with the same look on Linux (zsh and Ptyxis).
+Customize Windows Terminal settings, appearance and enhance PowerShell experience, with the same look on Linux (zsh with Ptyxis or Konsole).
 
 ## Features
 
@@ -8,7 +8,7 @@ Customize Windows Terminal settings, appearance and enhance PowerShell experienc
 - Use nerd fonts icons in terminal
 - Autocompletion for PowerShell
 - Enhanced prompt with Git status
-- Linux setup for Ubuntu with the same themes
+- Linux setup for Fedora and Ubuntu with the same themes
 
 ## Requirements
 
@@ -121,13 +121,13 @@ The script provides auto-completion for gh commands. You can use it by typing `g
 
 You need to install the respective software to use the auto-completion.
 
-## Linux (Ubuntu)
+## Linux (Fedora and Ubuntu)
 
-The same Oh My Posh themes work on Linux. On Ubuntu, zsh takes the place of PowerShell and Ptyxis, Ubuntu's terminal, the place of Windows Terminal.
+The same Oh My Posh themes work on Linux. zsh takes the place of PowerShell, and the desktop's terminal the place of Windows Terminal: Konsole with KDE Plasma (Fedora KDE, Kubuntu), Ptyxis with GNOME (Fedora Workstation, Ubuntu). The script installs the packages with `dnf` or `apt`.
 
 | Windows                       | Linux                                                    |
 | ----------------------------- | -------------------------------------------------------- |
-| Windows Terminal color scheme | Ptyxis palette in [linux/palettes](./linux/palettes)     |
+| Windows Terminal color scheme | Ptyxis palette in [linux/palettes](./linux/palettes), Konsole color scheme in [linux/konsole](./linux/konsole) |
 | PowerShell 7 and PSReadLine   | zsh with zsh-autosuggestions and zsh-syntax-highlighting |
 | posh-git                      | zsh's Git completion and the Oh My Posh `git` segment    |
 | Terminal-Icons                | `eza --icons`                                            |
@@ -135,13 +135,24 @@ The same Oh My Posh themes work on Linux. On Ubuntu, zsh takes the place of Powe
 
 ### Install
 
-Clone the repository, then run the script. It installs the packages, Oh My Posh and JetBrainsMono Nerd Font, copies the palettes, links `~/.zshrc` to `linux/zshrc` (an existing one is kept as `~/.zshrc.backup`) and makes zsh your shell.
+Clone the repository, then run the script. It installs the packages, Oh My Posh and JetBrainsMono Nerd Font, sets up the colors of whichever terminal is installed (Ptyxis or Konsole), creates a `~/.zshrc` that sources `linux/zshrc` (an existing one is kept as `~/.zshrc.backup`) and makes zsh your shell.
 
 ```bash
-bash linux/install.sh        # optional argument: Ptyxis opacity, 0 to 1 (default 0.85)
+bash linux/install.sh        # optional argument: terminal opacity, 0 to 1 (default 0.85)
 ```
 
-Open Ptyxis once before running it, so its profile exists for the opacity. Log out and back in afterwards.
+With GNOME, open Ptyxis once before running it, so its profile exists for the opacity. Log out and back in afterwards.
+
+### .NET
+
+[dotnetup](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnetup/getting-started) manages the SDKs and the environment (`DOTNET_ROOT`, `PATH`); [linux/zshrc](./linux/zshrc) sets no .NET path. Run the install script first, then:
+
+```bash
+curl -fsSL https://aka.ms/dotnetup/get-dotnetup.sh | bash
+dotnetup init --shell zsh    # keep the "shell" access mode
+```
+
+dotnetup writes its lines in `~/.zshrc`, below the line that sources the repository, so the repository stays untouched. The `dotnet` completion loads at the first prompt, after those lines.
 
 ### Configure Ptyxis
 
@@ -156,9 +167,15 @@ for uuid in $(gsettings get org.gnome.Ptyxis profile-uuids | tr -d "[],'"); do
 done
 ```
 
+### Configure Konsole
+
+Nothing to do: the script creates a **Terminal** profile, makes it the default, and gives it the color scheme of the theme selected in [linux/zshrc](./linux/zshrc), JetBrainsMono Nerd Font size 12, an underline cursor and the opacity with blur.
+
+To switch theme later, uncomment another `theme=` line in [linux/zshrc](./linux/zshrc) and run the script again, or pick the color scheme in *Settings → Edit Current Profile → Appearance*. The opacity is in the color scheme's *Edit…* dialog.
+
 ### Themes
 
-Change the theme by uncommenting the desired `theme=` line in [linux/zshrc](./linux/zshrc), then pick the matching palette in Ptyxis.
+Change the theme by uncommenting the desired `theme=` line in [linux/zshrc](./linux/zshrc), then pick the matching palette in Ptyxis (Konsole: see above).
 
 [Windows Terminal]: https://aka.ms/terminal
 [PowerShell 7]: https://aka.ms/powershell
